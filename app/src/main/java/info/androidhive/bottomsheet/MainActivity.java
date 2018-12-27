@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -85,6 +86,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        // Capture our button from layout
+        ImageButton btnInicio = (ImageButton)findViewById(R.id.btnInicio);
+        // Register the onClick listener with the implementation above
+        btnInicio.setOnClickListener(btnInicioListener);
+
+        ImageButton btnAnterior = (ImageButton)findViewById(R.id.btnAnterior);
+        btnAnterior.setOnClickListener(btnAnteriorListener);
+
+        ImageButton btnSiguiente = (ImageButton)findViewById(R.id.btnSiguiente);
+        btnSiguiente.setOnClickListener(btnSiguienteListener);
+
+        ImageButton btnFin = (ImageButton)findViewById(R.id.btnFin);
+        btnFin.setOnClickListener(btnFinListener);
+
+
         cargarCirculos();
 
         callWS cws = new callWS();
@@ -92,16 +108,24 @@ public class MainActivity extends AppCompatActivity {
         toast.show();*/
         try {
             JSONObject reader = new JSONObject(cws.requestWS("p", getApplicationContext()));
+            String sys  = reader.getString("Tiempo");
+            JSONObject puntos = reader.getJSONObject("Puntos");
+            ArrayList<Vaca> vacas = new ArrayList<>();
+            for (int i = 0; i < puntos.length(); i++) {
+                JSONObject vaca = puntos.getJSONObject("Punto" + i);
+                vacas.add(new Vaca(vaca.getInt("x"), vaca.getInt("y")));
+            }
+            sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+            sheetBehavior.setHideable(false);
+            sheetBehavior.setSkipCollapsed(false);
+            Teselado t = (Teselado)((LinearLayout)((CardView)layoutBottomSheet.getChildAt(1)).getChildAt(0)).getChildAt(0);
+            t.setVacas(vacas);
+            t.drawVacas(true);
         } catch (JSONException e) {
             Toast toast = Toast.makeText(getApplicationContext(), "JSON MAlformado " + e.getMessage(), Toast.LENGTH_LONG);
             toast.show();
         }
 
-        sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        sheetBehavior.setHideable(false);
-        sheetBehavior.setSkipCollapsed(false);
-        Teselado t = (Teselado)((CardView)layoutBottomSheet.getChildAt(1)).getChildAt(0);
-        t.draw(true);
         //sheetBehavior = BottomSheetBehavior.from(t);
 
         /*MyDrawable mydrawing = new MyDrawable();
@@ -146,6 +170,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Create an anonymous implementation of OnClickListener
+    private View.OnClickListener btnInicioListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Inicio", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    };
+
+    private View.OnClickListener btnAnteriorListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Anterior", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    };
+
+    private View.OnClickListener btnSiguienteListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Siguiente", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    };
+
+    private View.OnClickListener btnFinListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Toast toast = Toast.makeText(getApplicationContext(), "Fin", Toast.LENGTH_LONG);
+            toast.show();
+        }
+    };
 
     private void cargarCirculos() {
 

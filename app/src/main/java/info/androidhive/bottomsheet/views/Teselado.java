@@ -12,7 +12,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import info.androidhive.bottomsheet.R;
+import info.androidhive.bottomsheet.Vaca;
 
 /**
  * TODO: document your custom view class.
@@ -23,6 +26,8 @@ public class Teselado extends View {
     String accion;
     float x = 50, y = 50;
     private boolean dibujarCirculo = false;
+    private boolean dibujarVacas;
+    private ArrayList<Vaca> vacas;
 
     public Teselado(Context context) {
         super(context);
@@ -52,11 +57,13 @@ public class Teselado extends View {
         }
         canvas.drawPath(path, paint);
 
-        if (dibujarCirculo){
+        if (dibujarVacas){
             //canvas.drawCircle(30/2, 30/2, 30, paint);
             Drawable d = getResources().getDrawable(R.drawable.vaca_actionbar, null);
-            d.setBounds(0, 0, 50, 50);
-            d.draw(canvas);
+            for (int i = 0; i < vacas.size(); i++) {
+                d.setBounds(vacas.get(i).getX(), vacas.get(i).getY(), vacas.get(i).getX() + d.getIntrinsicWidth(), vacas.get(i).getY() + d.getIntrinsicHeight());
+                d.draw(canvas);
+            }
         }
     }
 
@@ -80,4 +87,11 @@ public class Teselado extends View {
         invalidate();
     }
 
+    public void drawVacas(boolean dibujar) {
+        dibujarVacas = dibujar;
+    }
+
+    public void setVacas(ArrayList<Vaca> vacas) {
+        this.vacas = vacas;
+    }
 }

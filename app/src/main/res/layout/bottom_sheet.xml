@@ -58,11 +58,52 @@
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
 
-        <info.androidhive.bottomsheet.views.Teselado
-            android:id="@+id/teseladoView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/campo4" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <info.androidhive.bottomsheet.views.Teselado
+                android:id="@+id/teseladoView"
+                android:layout_width="match_parent"
+                android:layout_height="418dp"
+                android:background="@drawable/campo4" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnInicio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@android:drawable/ic_media_rew" />
+
+                <ImageButton
+                    android:id="@+id/btnAnterior"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@android:drawable/ic_media_previous" />
+
+                <ImageButton
+                    android:id="@+id/btnSiguiente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@android:drawable/ic_media_next" />
+
+                <ImageButton
+                    android:id="@+id/btnFin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:srcCompat="@android:drawable/ic_media_ff" />
+
+            </LinearLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
