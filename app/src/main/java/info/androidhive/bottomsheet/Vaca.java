@@ -3,6 +3,7 @@ package info.androidhive.bottomsheet;
 public class Vaca {
     int x;
     int y;
+    int oId;
 
     public Vaca(int x, int y) {
         this.x = x;
@@ -23,5 +24,13 @@ public class Vaca {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getoId() {
+        return oId;
+    }
+
+    public void setoId(int oId) {
+        this.oId = oId;
     }
 }

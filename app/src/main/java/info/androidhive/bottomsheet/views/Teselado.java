@@ -13,6 +13,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import info.androidhive.bottomsheet.R;
 import info.androidhive.bottomsheet.Vaca;
@@ -27,7 +29,10 @@ public class Teselado extends View {
     float x = 50, y = 50;
     private boolean dibujarCirculo = false;
     private boolean dibujarVacas;
-    private ArrayList<Vaca> vacas;
+    private Map<Integer, Vaca> vacas;
+    private Map<Integer, Vaca> vacasModificadas = new HashMap<>();
+    private Map<Integer, Vaca> vacasIn;
+    private Map<Integer, Vaca> vacasOut;
 
     public Teselado(Context context) {
         super(context);
@@ -60,9 +65,19 @@ public class Teselado extends View {
         if (dibujarVacas){
             //canvas.drawCircle(30/2, 30/2, 30, paint);
             Drawable d = getResources().getDrawable(R.drawable.vaca_actionbar, null);
-            for (int i = 0; i < vacas.size(); i++) {
-                d.setBounds(vacas.get(i).getX(), vacas.get(i).getY(), vacas.get(i).getX() + d.getIntrinsicWidth(), vacas.get(i).getY() + d.getIntrinsicHeight());
-                d.draw(canvas);
+            for (Integer i : vacas.keySet()) {
+                if (vacasModificadas.containsKey(i)){
+                    d.setBounds(vacasModificadas.get(i).getX(), vacasModificadas.get(i).getY(), vacasModificadas.get(i).getX() + d.getIntrinsicWidth(), vacasModificadas.get(i).getY() + d.getIntrinsicHeight());
+                    d.draw(canvas);
+                    //TODO DIBUJAR FLECHA
+
+                    Vaca oldValue = vacas.put(i, vacasModificadas.get(i));
+                    canvas.drawCircle(oldValue.getX()-2, oldValue.getY()-2, 5, paint);
+                    canvas.drawLine(oldValue.getX(), oldValue.getY(),vacasModificadas.get(i).getX(), vacasModificadas.get(i).getY(), paint);
+                } else {
+                    d.setBounds(vacas.get(i).getX(), vacas.get(i).getY(), vacas.get(i).getX() + d.getIntrinsicWidth(), vacas.get(i).getY() + d.getIntrinsicHeight());
+                    d.draw(canvas);
+                }
             }
         }
     }
@@ -89,9 +104,18 @@ public class Teselado extends View {
 
     public void drawVacas(boolean dibujar) {
         dibujarVacas = dibujar;
+        this.invalidate(); //PARA REDIBUJAR
     }
 
-    public void setVacas(ArrayList<Vaca> vacas) {
+    public void setVacas(Map<Integer, Vaca> vacas) {
         this.vacas = vacas;
+    }
+
+    public void addVaca(Integer id, Vaca v){
+        this.vacas.put(id, v);
+    }
+
+    public void setVacasModificadas (Map<Integer, Vaca> vacas) {
+        this.vacasModificadas = vacas;
     }
 }
