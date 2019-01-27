@@ -66,25 +66,37 @@ public class callWS {
         SoapSerializationEnvelope envelope;
         HttpTransportSE httpTransportSE;
         SoapPrimitive soapPrimitive;
+        PropertyInfo propertyInfo;
         String result;
         switch (parametro){
             case INICIO:
-                wsNombre =  Wss.datosIniciales.name();
+                wsNombre =  Wss.posicionInicial.name();
                 request = new SoapObject(NAMESPACE, wsNombre);
                 break;
             case ANTERIOR:
-
-            case SIGUIENTE:
-                wsNombre = Wss.consultarMovimiento.name();
+                wsNombre = Wss.consultarMovimientoAnterior.name();
                 request = new SoapObject(NAMESPACE, wsNombre);
 
-                PropertyInfo propertyInfo = new PropertyInfo();
+                propertyInfo = new PropertyInfo();
                 propertyInfo.setName("arg0");
                 propertyInfo.setValue(parametrosWS.get("tiempo"));
                 propertyInfo.setType(Integer.class);
                 request.addProperty(propertyInfo);
                 break;
+            case SIGUIENTE:
+                wsNombre = Wss.consultarMovimientoSiguiente.name();
+                request = new SoapObject(NAMESPACE, wsNombre);
 
+                propertyInfo = new PropertyInfo();
+                propertyInfo.setName("arg0");
+                propertyInfo.setValue(parametrosWS.get("tiempo"));
+                propertyInfo.setType(Integer.class);
+                request.addProperty(propertyInfo);
+                break;
+            case FIN:
+                wsNombre =  Wss.posicionFinal.name();
+                request = new SoapObject(NAMESPACE, wsNombre);
+                break;
         }
 
         envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
