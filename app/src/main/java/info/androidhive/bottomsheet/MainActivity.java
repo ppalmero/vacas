@@ -1,5 +1,8 @@
 package info.androidhive.bottomsheet;
 
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
@@ -43,6 +46,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import info.androidhive.bottomsheet.enums.Consultas;
+import info.androidhive.bottomsheet.views.DatePickerFragment;
+import info.androidhive.bottomsheet.views.FechaHoraActivity;
 import info.androidhive.bottomsheet.views.Teselado;
 import info.androidhive.bottomsheet.ws.callWS;
 
@@ -97,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton btnFin = findViewById(R.id.btnFin);
         btnFin.setOnClickListener(btnFinListener);
+
+        ImageButton btnAxP = findViewById(R.id.ibAnimalesPorParcela);
+        btnAxP.setOnClickListener(btnAxPListener);
 
         cargarCirculos();
 
@@ -266,6 +274,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    private View.OnClickListener btnAxPListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Intent intent = new Intent(MainActivity.this, FechaHoraActivity.class);
+            intent.putExtra("tipo", "intervalo");
+            startActivityForResult(intent, 1111);
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1111 && resultCode == Activity.RESULT_OK){
+            //TODO recuperar fecha y hora
+            String nombre = data.getExtras().getString("nombre");
+        }
+    }
 
     private void cargarCirculos() {
 

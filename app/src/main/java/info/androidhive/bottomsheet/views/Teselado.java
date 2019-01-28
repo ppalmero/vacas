@@ -24,6 +24,7 @@ public class Teselado extends View {
     Path path = new Path();
     String accion;
     float x = 50, y = 50;
+    float xDown, yDown;
     private boolean dibujarCirculo = false;
     private boolean dibujarVacas;
     private Map<Integer, Vaca> vacas;
@@ -54,10 +55,22 @@ public class Teselado extends View {
         float alto  = canvas.getHeight() / 1000f;
 
         if (accion == "down"){
-            path.moveTo(x, y);
+            //path.moveTo(x, y);
+            xDown = x;
+            yDown = y;
         }
         if (accion == "move"){
-            path.lineTo(x, y);
+            //path.lineTo(x, y);
+            path.reset();
+            if ((x < xDown) && (y < yDown)) {
+                path.addRect(x, y, xDown, yDown, Path.Direction.CW);
+            } else if (x < xDown) {
+                path.addRect(x, yDown, xDown, y, Path.Direction.CW);
+            } else if (y < yDown) {
+                path.addRect(xDown, y, x, yDown, Path.Direction.CW);
+            } else {
+                path.addRect(xDown, yDown, x, y, Path.Direction.CW);
+            }
         }
         canvas.drawPath(path, paint);
 

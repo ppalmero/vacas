@@ -9,4 +9,5 @@
     <string name="title_activity_presentacion">Presentación</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">SEGUIMIENTO\nDE RODEOS</string>
+    <string name="Fecha">Indique fecha de inicio</string>
 </resources>
